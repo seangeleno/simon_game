@@ -15,3 +15,15 @@ function flashButton(index){
   $(buttons[index]).fadeTo('fast', 0.2).fadeTo('fast', 1.0);
   playSound(index);
 };
+
+//start button
+var buttonClick = document.querySelectorAll('.buttons');
+var startGame = document.querySelector('.startButton');
+  startGame.addEventListener('click', function(){
+    if (currentCombo.length < 1){
+      currentCombo.push(randomize());
+      console.log(currentCombo);
+      flashButton(currentCombo[0]);
+    }
+  count++;
+  });
