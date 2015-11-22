@@ -54,7 +54,7 @@ var compareClick = function(){
     document.getElementById('score1').innerHTML = playerScore;
     playSound(4);
   } else {
-    if (playerGuess.length === currentCombo.length){
+    if (playerGuess.lengit gth === currentCombo.length){
       //round complete
       playerScore++;
       document.getElementById('score1').innerHTML = playerScore;
