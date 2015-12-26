@@ -1,22 +1,23 @@
-var playerGuess = []
+//global variables and empty arrays
+var playerGuess  = []
 ,   currentCombo = []
-,   playerScore = 0
-,   count = 0
-,   buttons = $('.buttons')
-,   sound1 = document.querySelector("#sound1")
-,   sound2 = document.querySelector("#sound2")
-,   sound3 = document.querySelector("#sound3")
-,   sound4 = document.querySelector("#sound4")
-,   sound5 = document.querySelector("#sound5")
-,   soundsArray = [sound1, sound2, sound3, sound4, sound5];
+,   playerScore  = 0
+,   count        = 0
+,   buttons      = $('.buttons')
+,   sound1       = document.querySelector("#sound1")
+,   sound2       = document.querySelector("#sound2")
+,   sound3       = document.querySelector("#sound3")
+,   sound4       = document.querySelector("#sound4")
+,   sound5       = document.querySelector("#sound5")
+,   soundsArray  = [sound1, sound2, sound3, sound4, sound5];
 
-//flash button effect
+//flash the button
 function flashButton(index){
   $(buttons[index]).fadeTo('fast', 0.2).fadeTo('fast', 1.0);
   playSound(index);
 };
 
-//start button
+//start button query selector
 var buttonClick = document.querySelectorAll('.buttons');
 var startGame = document.querySelector('.startButton');
   startGame.addEventListener('click', function(){
@@ -28,22 +29,20 @@ var startGame = document.querySelector('.startButton');
   count++;
   });
 
-//playerGuess push guess values to array
-  $('.buttons').on('click', function () {
-    var value = $(this).data('button');
-    playerGuess.push(value);
-    console.log(playerGuess);
-    count++;
-    //checkScore();
-    playSound(value);
-    compareClick();
-  });
+$('.buttons').on('click', function () {
+  var value = $(this).data('button');
+  playerGuess.push(value);
+  console.log(playerGuess);
+  count++;
+  playSound(value);
+  compareClick();
+});
 
-//randomizing sequence
-function randomize() {
+//randomizer function
+function randomize () {
   return Math.floor((Math.random()*4))}
 
-//main function
+//1st main function
 var compareClick = function(){
   var lastClick = playerGuess[playerGuess.length-1];
   var position = playerGuess.length - 1;
@@ -54,7 +53,7 @@ var compareClick = function(){
     document.getElementById('score1').innerHTML = playerScore;
     playSound(4);
   } else {
-    if (playerGuess.lengit gth === currentCombo.length){
+    if (playerGuess.length === currentCombo.length){
       //round complete
       playerScore++;
       document.getElementById('score1').innerHTML = playerScore;
@@ -64,7 +63,7 @@ var compareClick = function(){
     }
   }
 }
-
+//second main function
 var checkScore = function () {
   if(playerGuess.length === currentCombo.length){
 
@@ -91,7 +90,7 @@ var checkScore = function () {
   };
 };
 
-//sound index
+//Create always a new sound switch index so previous sound won't be overlapped
 function playSound(index) {
   var selectedSound;
   switch(index) {
@@ -115,32 +114,7 @@ function playSound(index) {
   sound.play();
 };
 
-//now we gotta reset
-function resetAll () {
-  playerGuess = [];
-  currentCombo = [];
-  playerScore = 0;
-  console.log(playerGuess + " " + currentCombo);
-  document.getElementById('score1').innerHTML = 0;
-}
-var resetButton = document.querySelectorAll('.resetButton');
-for (var i = 0; i < resetButton.length; i++) {
-  resetButton[i].addEventListener('click', resetAll)};
-
-function nextRound(){
-    currentCombo.push(randomize());
-    console.log(currentCombo);
-    //use a for loop to iterate over the currentCombo array and flash each button
-    //BEST PART!
-    for (var i = 0; i < currentCombo.length; i++) {
-      setTimeout(function(index) {
-        flashButton(currentCombo[index]);
-      }, 400*(i+1), i);
-    }
-    playerGuess = [];
-  }
-
-//a little jquery ui action to spice things up...
+//jquery explode
 $(document).ready(function () {
   $("#dialog").dialog({
       autoOpen: false,
@@ -157,4 +131,28 @@ $(document).ready(function () {
 function inform(message) {
   $( "#dialog .dialogMsg").html(message);
   $( "#dialog" ).dialog( "open" );
-}
+};
+
+//reset functions
+function resetAll () {
+  playerGuess = [];
+  currentCombo = [];
+  playerScore = 0;
+  console.log(playerGuess + " " + currentCombo);
+  document.getElementById('score1').innerHTML = 0;
+};
+
+var resetButton = document.querySelectorAll('.resetButton');
+for (var i = 0; i < resetButton.length; i++) {
+  resetButton[i].addEventListener('click', resetAll)};
+//next round function
+function nextRound(){
+    currentCombo.push(randomize());
+    console.log(currentCombo);
+    for (var i = 0; i < currentCombo.length; i++) {
+      setTimeout(function(index) {
+        flashButton(currentCombo[index]);
+      }, 400*(i+1), i);
+    }
+    playerGuess = [];
+};
